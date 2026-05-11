@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>IoT Security Analyzer</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <h1>🔐 IoT Security Analyzer</h1>
+    </header>
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <div class="sidebar">
+
+            <h2>⚙ Controls</h2>
+
+            <form method="POST">
+
+                <select name="attack">
+
+                    <option value="Sniffing"
+                    {% if request.form.get('attack') == 'Sniffing' %}
+                    selected
+                    {% endif %}>
+                    Sniffing
+                    </option>
+
+                    <option value="Brute Force"
+                    {% if request.form.get('attack') == 'Brute Force' %}
+                    selected
+                    {% endif %}>
+                    Brute Force
+                    </option>
+
+                    <option value="MITM"
+                    {% if request.form.get('attack') == 'MITM' %}
+                    selected
+                    {% endif %}>
+                    MITM
+                    </option>
+
+                    <option value="Replay"
+                    {% if request.form.get('attack') == 'Replay' %}
+                    selected
+                    {% endif %}>
+                    Replay
+                    </option>
+
+                    <option value="Injection"
+                    {% if request.form.get('attack') == 'Injection' %}
+                    selected
+                    {% endif %}>
+                    Injection
+                    </option>
+
+                </select>
+
+                <button type="submit">
+                    ▶ Run Simulation
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- Output -->
+        <div class="output">
+
+            <h2>Simulation Output</h2>
+
+            {% if result %}
+
+            <div class="box">
+
+                <p>
+                    <strong>📡 Original Data:</strong>
+                </p>
+
+                <pre>{{ result.original }}</pre>
+
+                <p>
+                    <strong>⚔️ After Attack:</strong>
+                </p>
+
+                <pre>{{ result.attacked }}</pre>
+
+                <p>
+                    <strong>🛡️ After Defence:</strong>
+                </p>
+
+                <pre>{{ result.secured }}</pre>
+
+                <p>
+                    <strong>📊 Risk Level:</strong>
+                    {{ result.risk }}
+                </p>
+
+                <p>
+                    <strong>🎯 Score:</strong>
+                    {{ result.score }}
+                </p>
+
+                <p>
+                    <strong>💡 Recommendations:</strong>
+                </p>
+
+                <ul>
+                    {% for rec in result.recommendations %}
+                        <li>{{ rec }}</li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+</html>
